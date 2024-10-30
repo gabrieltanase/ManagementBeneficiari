@@ -17,11 +17,7 @@ export class NavigationService {
     return new Promise((resolve, reject) => {
       this.router.navigate(path, extras)
         .then(success => {
-          if (success) {
-            resolve(true);
-          } else {
-            reject('Navigation failed');
-          }
+          success ? resolve(success) : reject(success);
         })
         .catch(error => {
           reject(error);
