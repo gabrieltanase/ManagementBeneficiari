@@ -1,0 +1,17 @@
+@if (label) {
+  <label [for]="id">{{ label }}</label>
+}
+<input
+  pInputText
+  [id]="id"
+  [class]="class"
+  [type]="type"
+  [placeholder]="placeholder"
+  [formControl]="control"
+  [maxLength]="maxLength"
+  (input)="onInput($event)"
+/>
+
+@if (errorMessage) {
+  <p class="ng-invalid ng-dirty">{{ getErrorMessage() }}</p>
+}
