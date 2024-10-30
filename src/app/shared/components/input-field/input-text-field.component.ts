@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -16,7 +16,9 @@ export class InputTextFieldComponent implements OnInit, OnDestroy {
   @Input() id: string = '';
   @Input() placeholder: string = '';
   @Input() class: string = '';
-  @Input() control!: FormControl;
+  @Input() control!: FormControl; // Accept FormControl for single input
+  @Input() formArrayControl?: FormArray; // Accept FormArray for multiple inputs
+  @Input() index?: number; // Index of the control in the FormArray
   @Input() type: string | undefined = 'text';
   @Input() maxLength: number = 100;
   @Output() valueChange = new EventEmitter<string>();
@@ -24,9 +26,16 @@ export class InputTextFieldComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null;
   private statusSubscription!: Subscription;
 
+  // Getter for the current control, either standalone or within FormArray
+  get targetControl(): FormControl {
+    return this.control || (this.formArrayControl && this.index !== undefined
+      ? this.formArrayControl.at(this.index) as FormControl
+      : new FormControl(''));
+  }
+
   ngOnInit() {
     this.statusSubscription = this.control.statusChanges.subscribe(() => {
-      this.errorMessage = this.getErrorMessage();
+      this.updateErrorMessage()
     });
   }
 
@@ -38,27 +47,31 @@ export class InputTextFieldComponent implements OnInit, OnDestroy {
 
   onInput(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
-    this.control.setValue(inputValue); // Set value on FormControl
-    // this.getErrorMessage()
-    //
+    this.targetControl.setValue(inputValue);
     this.valueChange.emit(inputValue);
+    // Only show error message if the user has started typing (dirty state)
+    if (this.targetControl.dirty) {
+      this.updateErrorMessage();
+    }
+  }
+
+  updateErrorMessage() {
+    this.errorMessage = this.getErrorMessage();
   }
 
   getErrorMessage(): string | null {
-    if (this.control && this.control.errors) {
-      const { required, minlength, maxlength, email, pattern } = this.control.errors;
+    const errors = this.targetControl.errors;
+    if (errors) {
+      const { required, minlength, maxlength, email, pattern } = errors;
 
-      // Handle built-in validators
       if (required) {
-        return  `The field is required.`; // TODO: translate to RO
+        return `The field is required.`;
       }
       if (minlength) {
-        const requiredLength = minlength.requiredLength;
-        return `Minimum length is ${requiredLength} characters.`;
+        return `Minimum length is ${minlength.requiredLength} characters.`;
       }
       if (maxlength) {
-        const requiredLength = maxlength.requiredLength;
-        return `Maximum length is ${requiredLength} characters.`;
+        return `Maximum length is ${maxlength.requiredLength} characters.`;
       }
       if (email) {
         return 'Please enter a valid email address.';
@@ -67,9 +80,7 @@ export class InputTextFieldComponent implements OnInit, OnDestroy {
         return 'Please enter a valid format.';
       }
 
-      // console.log('errors:', this.control.errors)
-      // Handle custom validators
-      return Object.values(this.control.errors)[0] ||  'Invalid input.'; // Fallback message
+      return Object.values(errors)[0] || 'Invalid input.'; // Fallback message
     }
     return null;
   }
