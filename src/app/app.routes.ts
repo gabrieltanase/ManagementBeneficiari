@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { UnsavedChangesGuard } from '@core/guards/unsaved-changes.guard';
-import { BeneficiariesComponent } from '@features/beneficiaries/beneficiaries/beneficiaries.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/beneficiaries', pathMatch: 'full' }, // Redirect to beneficiaries
