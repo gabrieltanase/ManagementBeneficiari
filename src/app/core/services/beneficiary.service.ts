@@ -38,10 +38,7 @@ export class BeneficiaryService {
   }
 
   updateBeneficiary(updatedBeneficiary: Beneficiary): void {
-    // Log the updatedBeneficiary to debug
-    console.log('Updating beneficiary with ID:', updatedBeneficiary.id);
     if (!updatedBeneficiary.id) {
-      console.error('Beneficiary ID is missing during update:', updatedBeneficiary);
       return; // Exit if there's no ID
     }
 

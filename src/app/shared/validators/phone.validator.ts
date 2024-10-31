@@ -5,7 +5,7 @@ export function phoneNumberValidator(minLength: number = 10, maxLength: number =
     const phone = control.value;
 
     if (!phone) {
-      return null; // Allow empty values to pass the validator, can adjust based on required fields
+      return null;
     }
 
     // Define the regex: allows an optional leading '+' for international numbers, followed by digits only

@@ -5,7 +5,6 @@ export function cuiValidator(): ValidatorFn {
     const cui = control.value;
 
     if (!cui) {
-      // return { required: 'CUI is required' };
       return null;
     }
 

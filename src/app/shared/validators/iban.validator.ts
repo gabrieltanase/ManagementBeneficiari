@@ -5,7 +5,6 @@ export function ibanValidator(): ValidatorFn {
     const iban = control.value;
 
     if (!iban) {
-      // return { required: 'IBAN is required' }; // TODO: translate in RO
       return null;
     }
 
@@ -19,6 +18,9 @@ export function ibanValidator(): ValidatorFn {
       return { invalidLength: 'IBAN must be 24 characters long' };
     }
 
+    /**
+     * DISABLED FOR NOW to allow flexible iban's
+     */
     // Validate the IBAN checksum
     // if (!isValidIbanChecksum(iban)) {
     //   return { invalidChecksum: 'IBAN is invalid' };

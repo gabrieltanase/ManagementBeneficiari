@@ -184,7 +184,6 @@ export class BeneficiariesFormComponent implements OnInit, UnsavedChanges {
   }
 
   onBeneficiaryTypeChange(type: BeneficiaryType) {
-    console.log(this.beneficiaryForm)
     this.selectedBeneficiaryType = type;
     this.beneficiaryForm = this.fb.group({});
     this.initializeForm();
@@ -230,8 +229,6 @@ export class BeneficiariesFormComponent implements OnInit, UnsavedChanges {
   }
   // END OF IBAN
 
-
-  // todo: use navigation service !!
   onSubmit() {
     if (this.beneficiaryForm.valid) {
       this.isEditMode ?

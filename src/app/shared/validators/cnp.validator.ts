@@ -5,7 +5,6 @@ export function cnpValidator(): ValidatorFn {
     const cnp = control.value;
 
     if (!cnp) {
-      // return { required: 'CNP is required' };
       return null;
     }
 
