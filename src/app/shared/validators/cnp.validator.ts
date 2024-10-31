@@ -11,18 +11,18 @@ export function cnpValidator(): ValidatorFn {
     // Check if CNP contains only numeric characters
     const onlyNumbersRegex = /^\d+$/;
     if (!onlyNumbersRegex.test(cnp)) {
-      return { invalidCharacters: 'CNP must contain only numbers' };
+      return { invalidCharacters: 'CNP trebuie să conțină doar cifre' };
     }
 
     // Check if CNP is exactly 13 digits long
     if (cnp.length !== 13) {
-      return { invalidLength: 'CNP must be exactly 13 digits long' };
+      return { invalidLength: 'CNP trebuie să aibă exact 13 cifre' };
     }
 
     // Validate CNP checksum
     const checksum = calculateCnpChecksum(cnp);
     if (cnp[12] !== checksum.toString()) {
-      return { invalidChecksum: 'CNP is invalid' };
+      return { invalidChecksum: 'CNP-ul este invalid' };
     }
 
     return null; // Return null if all validations pass

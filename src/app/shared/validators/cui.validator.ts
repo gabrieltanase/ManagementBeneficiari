@@ -10,12 +10,12 @@ export function cuiValidator(): ValidatorFn {
 
     // Check if CUI is between 8 to 10 digits and starts with a digit from 1-9
     if (!/^[1-9]\d{7,9}$/.test(cui)) {
-      return { invalidFormat: 'CUI must be 8 to 10 digits, starting with a non-zero digit' };
+      return { invalidFormat: 'CUI trebuie să fie între 8 și 10 cifre, începând cu o cifră diferită de zero' };
     }
 
     // Validate checksum if CUI has exactly 10 digits
     if (cui.length === 10 && !isValidCuiChecksum(cui)) {
-      return { invalidChecksum: 'CUI is invalid' };
+      return { invalidChecksum: 'CUI-ul este invalid' };
     }
 
     return null; // Valid CUI

@@ -14,6 +14,6 @@ export function phoneNumberValidator(minLength: number = 10, maxLength: number =
     // Check if phone number matches the pattern
     const valid = phoneRegex.test(phone);
 
-    return valid ? null : { invalidPhoneNumber: 'Invalid phone number.' };
+    return valid ? null : { invalidPhoneNumber: 'Număr de telefon invalid.' };
   };
 }

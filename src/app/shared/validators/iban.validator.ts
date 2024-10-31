@@ -10,12 +10,12 @@ export function ibanValidator(): ValidatorFn {
 
     // Check for the RO prefix
     if (!iban.startsWith('RO')) {
-      return { invalidCountryCode: 'IBAN must start with "RO" for Romania' };
+      return { invalidCountryCode: 'IBAN-ul trebuie să înceapă cu "RO" pentru România' };
     }
 
     // Check for length requirement: Romania IBAN should have exactly 24 characters
     if (iban.length !== 24) {
-      return { invalidLength: 'IBAN must be 24 characters long' };
+      return { invalidLength: 'IBAN-ul trebuie să aibă 24 de caractere' };
     }
 
     /**
@@ -23,7 +23,7 @@ export function ibanValidator(): ValidatorFn {
      */
     // Validate the IBAN checksum
     // if (!isValidIbanChecksum(iban)) {
-    //   return { invalidChecksum: 'IBAN is invalid' };
+    //   return { invalidChecksum: 'IBAN-ul este invalid' };
     // }
 
     return null; // Valid IBAN
