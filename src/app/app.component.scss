@@ -1,0 +1,26 @@
+/* Style the navbar */
+
+/* TODO: navbar temporar */
+.navbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #1976d2;
+  color: white;
+
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Basic style for routed content */
+router-outlet {
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem;
+}
