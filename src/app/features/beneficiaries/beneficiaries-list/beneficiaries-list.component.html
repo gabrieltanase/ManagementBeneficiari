@@ -1,0 +1,35 @@
+<p-table [value]="beneficiaries" sortMode="multiple">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Type</th>
+      <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+      <th pSortableColumn="cnp">CNP <p-sortIcon [field]="'cnp'"></p-sortIcon></th>
+      <th pSortableColumn="cui">CUI <p-sortIcon [field]="'cui'"></p-sortIcon></th>
+      <th pSortableColumn="address">Address <p-sortIcon [field]="'address'"></p-sortIcon></th>
+      <th pSortableColumn="phone">Phone <p-sortIcon [field]="'phone'"></p-sortIcon></th>
+      <th>IBAN</th>
+      <th>Actiuni</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-beneficiary>
+    <tr>
+      <td>{{ beneficiary.firstName ? 'Individual' : 'Business' }}</td>
+      <td>{{ beneficiary.firstName ? (beneficiary.firstName + ' ' + beneficiary.lastName) : beneficiary.name }}</td>
+      <td>{{ beneficiary.firstName ? beneficiary.cnp : '-' }}</td>
+      <td>{{ beneficiary.firstName ? '-' : beneficiary.cui }}</td>
+      <td>{{ beneficiary.address || '-' }}</td>
+      <td>{{ beneficiary.phone || '-'  }}</td>
+      <td>
+        <ul>
+          @for (iban of beneficiary.ibanArray; let i = $index; track i) {
+            <li>{{ iban }}</li>
+          }
+        </ul>
+      </td>
+      <td>
+        <i class="pi pi-file-edit" (click)="editBeneficiary(beneficiary)">Editeaza</i>
+        <i class="pi pi-delete-left" (click)="removeBeneficiary(beneficiary.id)">Sterge</i>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
