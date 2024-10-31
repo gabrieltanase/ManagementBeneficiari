@@ -12,10 +12,10 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrl: './input-text-field.component.scss'
 })
 export class InputTextFieldComponent implements OnInit, OnDestroy {
-  @Input() label: string = '';
+  // @Input() label: string = '';
   @Input() id: string = '';
   @Input() placeholder: string = '';
-  @Input() class: string = '';
+  @Input() inputClass: string = 'w-full';
   @Input() control!: FormControl; // Accept FormControl for single input
   @Input() formArrayControl?: FormArray; // Accept FormArray for multiple inputs
   @Input() index?: number; // Index of the control in the FormArray
@@ -65,19 +65,19 @@ export class InputTextFieldComponent implements OnInit, OnDestroy {
       const { required, minlength, maxlength, email, pattern } = errors;
 
       if (required) {
-        return `The field is required.`;
+        return `Câmpul este obligatoriu.`; // The field is required.
       }
       if (minlength) {
-        return `Minimum length is ${minlength.requiredLength} characters.`;
+        return `Lungimea minimă este ${minlength.requiredLength} caractere.`; // Minimum length is ${minlength.requiredLength} characters.
       }
       if (maxlength) {
-        return `Maximum length is ${maxlength.requiredLength} characters.`;
+        return `Lungimea maximă este ${maxlength.requiredLength} caractere.`; // Maximum length is ${maxlength.requiredLength} characters.
       }
       if (email) {
-        return 'Please enter a valid email address.';
+        return `Vă rugăm să introduceți o adresă de email validă.`; // Please enter a valid email address.
       }
       if (pattern) {
-        return 'Please enter a valid format.';
+        return `Vă rugăm să introduceți un format valid.`; // Please enter a valid format.
       }
 
       return Object.values(errors)[0] || 'Invalid input.'; // Fallback message

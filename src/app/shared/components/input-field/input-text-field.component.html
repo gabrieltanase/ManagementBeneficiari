@@ -1,10 +1,7 @@
-@if (label) {
-  <label [for]="id">{{ label }}</label>
-}
 <input
   pInputText
   [id]="id"
-  [class]="class"
+  [ngClass]="inputClass"
   [type]="type"
   [placeholder]="placeholder"
   [formControl]="control"
@@ -12,8 +9,6 @@
   (input)="onInput($event)"
 />
 
-
-
 @if (errorMessage) {
-  <p class="ng-invalid ng-dirty">{{ getErrorMessage() }}</p>
+  <small class="ml-2 text-red-600">{{ getErrorMessage() }}</small>
 }
