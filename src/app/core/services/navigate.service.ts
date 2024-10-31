@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   /**
    * Navigate to a given route path with optional params and queryParams.
@@ -23,5 +23,9 @@ export class NavigationService {
           reject(error);
         });
     });
+  }
+
+  getCurrentRouteParams(): any {
+    return this.activatedRoute.snapshot.params; // Return the current route parameters
   }
 }
