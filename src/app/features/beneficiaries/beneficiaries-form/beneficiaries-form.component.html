@@ -1,0 +1,94 @@
+
+<div class="beneficiaryForm p-d-flex p-ai-center p-jc-center">
+  <h2>Gestionare Beneficiari</h2>
+
+  <form [formGroup]="beneficiaryForm">
+    <div>
+      <!-- TODO: update input field to use primeng radio -->
+      @for (type of beneficiaryTypes; let i  = $index; track type) {
+        <label>
+          <input
+            type="radio"
+            [value]="type"
+            [checked]="type === selectedBeneficiaryType"
+            [disabled]="isEditMode && type !== selectedBeneficiaryType"
+            (change)="onBeneficiaryTypeChange(type)"
+            required
+          /> {{ type.name }}
+        </label>
+      }
+    </div>
+
+    <div>
+      <h3>{{ selectedBeneficiaryType.name }}</h3>
+      @for (field of selectedBeneficiaryType.fields; track field.controlName) {
+        <div class="field grid">
+          <label class="col-12 mb-2 md:col-2 md:mb-0" [for]="field.controlName">{{ field.label }}</label>
+          <!-- TODO: update input field to use primeng calendar -->
+          <div class="col-12 md:col-10">
+            <app-input-field
+              [id]="field.controlName"
+              [type]="field.type"
+              [control]="getFormControl(field.controlName)"
+            />
+          </div>
+        </div>
+      }
+      <!--  COMMON FIELDS  -->
+      @for (field of commonFields; track field.controlName) {
+        @if (field.controlName === 'ibanArray') {
+          <div class="field grid" formArrayName="ibanArray">
+            @for (control of ibanArray.controls; let i = $index; track control) {
+              <label class="col-12 mb-2 md:col-2 md:mb-0" [for]="field.controlName">
+                {{ getIbanLabel(field.label, i)}}
+              </label>
+              <div class="col-12 md:col-10 flex align-items-center gap-2 mb-3">
+                <app-input-field
+                  [control]="getAbstractFc(field.controlName, i)"
+                  [formArrayControl]="ibanArray"
+                  class="flex-1"
+                />
+
+                <!-- IBAN BUTTONS -->
+                <div class="flex-0 flex gap-2">
+                  <button pButton class="flex-0 bg-primary-400 border-primary-500 hover:bg-primary-500" type="button"
+                          icon="pi pi-plus"
+                          (click)="addIban()"></button>
+                  @if (ibanArray.length > 1) {
+                    <button pButton class="flex-0 bg-red-400 border-red-500 hover:bg-red-500" type="button" icon="pi pi-minus"
+                            (click)="removeIban(i)"></button>
+                  }
+                </div>
+
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="field grid">
+            <label class="col-12 mb-2 md:col-2 md:mb-0" [for]="field.controlName">{{ field.label }}</label>
+            <div class="col-12 md:col-10">
+              <app-input-field
+                [id]="field.controlName"
+                [type]="field.type"
+                [control]="getFormControl(field.controlName)"
+              />
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <div class="flex justify-content-end gap-3">
+      <button
+        pButton
+        class="bg-green-600 border-green-700 text-white hover:bg-green-800 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-600"
+        type="button"
+        [disabled]="beneficiaryForm.invalid"
+        (click)="onSubmit()"
+      >
+        Salveaza
+      </button>
+      <button pButton class="bg-orange-300 border-orange-400 hover:bg-orange-400" type="button" (click)="cancel()">Anuleaza</button>
+    </div>
+  </form>
+</div>
