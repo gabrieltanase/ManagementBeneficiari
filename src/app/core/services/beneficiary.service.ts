@@ -6,35 +6,53 @@ import { v4 as uuidv4 } from 'uuid';
   providedIn: 'root'
 })
 export class BeneficiaryService {
+  private readonly storageKey = 'beneficiaries';
 
-  private storageKey = 'beneficiaries';
-
-  getBeneficiaries(): Beneficiary[] {
+  private get beneficiaries(): Beneficiary[] {
     const data = localStorage.getItem(this.storageKey);
     return data ? JSON.parse(data) : [];
   }
 
-  saveBeneficiary(beneficiary: Beneficiary): void {
-    const beneficiaries = this.getBeneficiaries();
-
-    // Assign a unique ID if not already present
+  private assignUniqueId(beneficiary: Beneficiary): void {
     if (!beneficiary.id) {
       beneficiary.id = uuidv4();
     }
+  }
 
-    beneficiaries.push(beneficiary);
+  private updateLocalStorage(beneficiaries: Beneficiary[]): void {
+    console.log('Update local storage : ', beneficiaries);
     localStorage.setItem(this.storageKey, JSON.stringify(beneficiaries));
   }
 
-  deleteBeneficiary(id: string): void {
-    const beneficiaries = this.getBeneficiaries().filter(b => b.id !== id);
-    localStorage.setItem(this.storageKey, JSON.stringify(beneficiaries));
+  getBeneficiaryById(id: string): Beneficiary | undefined {
+    return this.beneficiaries.find(beneficiary => beneficiary.id === id);
+  }
+
+  getBeneficiaries() {
+    return this.beneficiaries;
+  }
+
+  saveBeneficiary(beneficiary: Beneficiary): void {
+    this.assignUniqueId(beneficiary);
+    this.updateLocalStorage([...this.beneficiaries, beneficiary]);
   }
 
   updateBeneficiary(updatedBeneficiary: Beneficiary): void {
-    const beneficiaries = this.getBeneficiaries().map(b =>
-      b.id === updatedBeneficiary.id ? updatedBeneficiary : b
+    // Log the updatedBeneficiary to debug
+    console.log('Updating beneficiary with ID:', updatedBeneficiary.id);
+    if (!updatedBeneficiary.id) {
+      console.error('Beneficiary ID is missing during update:', updatedBeneficiary);
+      return; // Exit if there's no ID
+    }
+
+    const updatedBeneficiaries = this.beneficiaries.map(b =>
+      (b.id === updatedBeneficiary.id ? { ...b, ...updatedBeneficiary } : b)
     );
-    localStorage.setItem(this.storageKey, JSON.stringify(beneficiaries));
+
+    this.updateLocalStorage(updatedBeneficiaries);
+  }
+
+  deleteBeneficiary(id: string): void {
+    this.updateLocalStorage(this.beneficiaries.filter(b => b.id !== id));
   }
 }
