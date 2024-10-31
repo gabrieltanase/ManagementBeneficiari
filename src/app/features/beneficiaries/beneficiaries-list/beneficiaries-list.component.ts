@@ -3,6 +3,7 @@ import { Beneficiary } from '@core/models/beneficiary.model';
 import { ButtonDirective } from 'primeng/button';
 import { PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
+import { Ripple } from 'primeng/ripple';
 
 @Component({
   selector: 'app-beneficiaries-list',
@@ -10,7 +11,8 @@ import { TableModule } from 'primeng/table';
   imports: [
     ButtonDirective,
     PrimeTemplate,
-    TableModule
+    TableModule,
+    Ripple
   ],
   templateUrl: './beneficiaries-list.component.html',
   styleUrl: './beneficiaries-list.component.scss'

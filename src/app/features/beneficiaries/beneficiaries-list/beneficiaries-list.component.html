@@ -27,9 +27,14 @@
         </ul>
       </td>
       <td>
-        <i class="pi pi-file-edit" (click)="editBeneficiary(beneficiary)">Editeaza</i>
-        <i class="pi pi-delete-left" (click)="removeBeneficiary(beneficiary.id)">Sterge</i>
+        <div class="flex gap-2 justify-content-left align-items-center">
+          <button pButton pRipple type="button" icon="pi pi-file-edit"
+                  class="p-button-rounded p-button-text text-primary" (click)="editBeneficiary(beneficiary)"></button>
+          <button pButton pRipple type="button" icon="pi pi-trash"
+                  class="p-button-rounded p-button-text text-red-500" (click)="removeBeneficiary(beneficiary.id)"></button>
+        </div>
       </td>
+
     </tr>
   </ng-template>
 </p-table>
